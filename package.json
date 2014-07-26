@@ -1,0 +1,11 @@
+{
+  "name": "outkept-dashboard",
+  "version": "2.0.0",
+  "dependencies": {
+    "express": "*",
+    "mongodb": "*",
+    "socket.io": "*",
+    "duplex-emitter": "*",
+    "mubsub": "*"
+  }
+}
