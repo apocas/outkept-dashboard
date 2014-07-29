@@ -8,5 +8,5 @@ app.use(express.static('./public'));
 var http_server = http.createServer(app);
 var comm_server = new Station(http_server);
 
-http_server.listen(80);
+http_server.listen(1337);
 comm_server.start();

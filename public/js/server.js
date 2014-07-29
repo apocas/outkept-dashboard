@@ -7,28 +7,22 @@ var Server = function (server) {
 Server.prototype.render = function () {
   var self = this;
   if (this.rendered === false) {
-    if(this.props.status != 'normal' || this.locked === true || this.props.connected == 'false') {
+    if(this.props.status != 'normal' || this.locked === true || this.props.connected === false) {
       var serverg = this.create();
-      if(this.props.connected == 'false') {
+      if(this.props.connected === false) {
         serverg.attr('class', 'server disconnected');
       } else {
         serverg.attr('class', 'server ' + this.props.status);
       }
       this.renderSensors(serverg);
       self.rendered = true;
-      $('#servers_dashboard').isotope('insert', serverg, function() {
-        $('#servers_dashboard').isotope('reloadItems');
-        $('#servers_dashboard').isotope({ filter: $('.filters a .btn-primary').attr('data-filter') });
-      });
+      $('#servers_dashboard').isotope('insert', serverg);
     }
   } else {
-    if(this.props.status == 'normal' && this.locked === false && this.props.connected == 'true') {
+    if(this.props.status == 'normal' && this.locked === false && this.props.connected === true) {
       $('#servers_dashboard').isotope('remove', $('#servers_dashboard').find('#' + this.props.id), function() {
-        console.log('removing...' + this.props);
         self.rendered = false;
-        $('#servers_dashboard').isotope('reloadItems');
-        $('#servers_dashboard').isotope({ filter: $('.filters a .btn-primary').attr('data-filter') });
-      });
+      }).isotope('layout');
     } else {
       this.renderSensors($('#' + this.props.id));
     }

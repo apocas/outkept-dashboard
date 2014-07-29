@@ -32,9 +32,11 @@ window.DashboardView = Backbone.View.extend({
   click_pin_on: function (e) {
     var btn = $(e.target);
     var server = this.outkept.findServer(btn.parent().parent().attr('data-serverid'));
-    server.locked = true;
-    server.render();
-    btn.button('loading');
+    if(server.rendered === false) {
+      server.locked = true;
+      server.render();
+      btn.button('loading');
+    }
   },
 
   click_pin: function (e) {
@@ -43,9 +45,7 @@ window.DashboardView = Backbone.View.extend({
 
     $('#servers_dashboard').isotope('remove', $(e.target).parent(), function() {
       server.rendered = false;
-      $('#servers_dashboard').isotope('reloadItems');
-      $('#servers_dashboard').isotope({ filter: $('.filters a .btn-primary').attr('data-filter') });
-    });
+    }).isotope('layout');
   },
 
   filter: function (e) {

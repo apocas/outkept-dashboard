@@ -39,9 +39,7 @@ var Outkept = function () {
         if (aux === undefined) {
           var server = new Server(servers[i]);
           self.servers.push(server);
-          if(server.status !== 'normal') {
-            server.render();
-          }
+          server.render();
         } else {
           aux.props = servers[i];
           aux.render();
@@ -71,7 +69,16 @@ var Outkept = function () {
         if(serv) {
           var sens = serv.getSensor(ev.sensor);
 
-          sens.value = ev.value;
+          if(!sens) {
+            sens = {
+              'name': ev.sensor,
+              'value': ev.value,
+              'status': ev.status
+            };
+            serv.props.sensors.push(sens);
+          } else {
+              sens.value = ev.value;
+          }
 
           if(ev.level === 'warned' || ev.level === 'alarmed') {
             sens.status = ev.level;
@@ -135,7 +142,7 @@ Outkept.prototype.renderSearch = function() {
 
   $('.typeahead_search').typeahead({source: search_strings, updater:function (item) {
       var s = self.searchServer(item);
-      if(s !== undefined) {
+      if(s !== undefined && s.rendered === false) {
         s.locked = true;
         s.render();
       } else {
