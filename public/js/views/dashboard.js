@@ -58,11 +58,10 @@ window.DashboardView = Backbone.View.extend({
 
   render:function () {
     $(this.el).html(this.template());
-
     $('#servers_dashboard', this.el).isotope({
       animationEngine : 'css',
       itemSelector: '.server',
-      filter: '*',
+      filter: '.alarmed, .pinned',
       masonry: {
         columnWidth: 10,
         isAnimated: false

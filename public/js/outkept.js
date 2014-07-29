@@ -34,7 +34,9 @@ var Outkept = function () {
 
     self.connection.on('servers', function (servers) {
       self.counter++;
+      var sensors = 0;
       for (var i = 0; i < servers.length; i++) {
+        sensors += servers[i].sensors.length;
         var aux = self.findServer(servers[i].id);
         if (aux === undefined) {
           var server = new Server(servers[i]);
@@ -47,6 +49,9 @@ var Outkept = function () {
       }
 
       self.renderSearch();
+
+      $('#vservers').html(servers.length);
+      $('#vsensors').html(sensors);
     });
 
     self.connection.on('message', function (message) {

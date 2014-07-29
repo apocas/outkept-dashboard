@@ -9,11 +9,19 @@ Server.prototype.render = function () {
   if (this.rendered === false) {
     if(this.props.status != 'normal' || this.locked === true || this.props.connected === false) {
       var serverg = this.create();
+      var classes = 'server';
       if(this.props.connected === false) {
-        serverg.attr('class', 'server disconnected');
+        classes += ' disconnected';
       } else {
-        serverg.attr('class', 'server ' + this.props.status);
+        classes += ' ' + this.props.status;
       }
+
+      if(this.locked === true) {
+        classes += ' pinned';
+      }
+
+      serverg.attr('class', classes);
+
       this.renderSensors(serverg);
       self.rendered = true;
       $('#servers_dashboard').isotope('insert', serverg);
@@ -36,11 +44,15 @@ Server.prototype.deRender = function() {
 Server.prototype.renderSensors = function (serverg) {
   if(this.props.sensors.length > 0) {
     var cpus = this.getSensor('load');
-    $("#sload", serverg).html(parseFloat(cpus.value).toFixed(2));
-    $("#sload", serverg).attr('class', Sensor.getClass(cpus));
+    if(cpus) {
+      $("#sload", serverg).html(parseFloat(cpus.value).toFixed(2));
+      $("#sload", serverg).attr('class', Sensor.getClass(cpus));
+    }
     var users = this.getSensor('users');
-    $("#susers", serverg).html(users.value);
-    $("#susers", serverg).attr('class', Sensor.getClass(users));
+    if(users) {
+      $("#susers", serverg).html(users.value);
+      $("#susers", serverg).attr('class', Sensor.getClass(users));
+    }
 
     for (var i = 0; i < this.props.sensors.length; i++) {
       if (this.props.sensors[i].name !== 'users' && this.props.sensors[i].name !== 'load') {
@@ -65,12 +77,15 @@ Server.prototype.create = function () {
   $(".scontent", serverg).html("<p class='hostname'>" + this.props.hostname.substr(0, 16) + "</p>");
   $(".scontent", serverg).append("<p class='address'>" + this.props.address + "</p>");
 
+  var ostats_content = "<i class='icon-user'></i><span id='susers'>n/a</span> | <i class='icon-signal'></i>  <span id='sload' class='snormal'>n/a</span>";
+
   if(this.props.sensors.length > 0) {
     var cpus = this.getSensor('load');
     var users = this.getSensor('users');
-    var ostats_content = "<i class='icon-user'></i><span id='susers'>" + users.value + "</span> | <i class='icon-signal'></i>  <span id='sload' class='" + Sensor.getClass(cpus) + "'>" + parseFloat(cpus.value).toFixed(2) + "</span>";
-  } else {
-    var ostats_content = "<i class='icon-user'></i><span id='susers'>n/a</span> | <i class='icon-signal'></i>  <span id='sload' class='snormal'>n/a</span>";
+
+    if(cpus && users) {
+      ostats_content = "<i class='icon-user'></i><span id='susers'  class='" + Sensor.getClass(users) + "'>" + users.value + "</span> | <i class='icon-signal'></i>  <span id='sload' class='" + Sensor.getClass(cpus) + "'>" + parseFloat(cpus.value).toFixed(2) + "</span>";
+    }
   }
 
   $(".scontent", serverg).append("<p class='ostats'>" + ostats_content + "</p>");
