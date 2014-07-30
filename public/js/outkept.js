@@ -65,7 +65,7 @@ var Outkept = function () {
     self.connection.on('event', function (ev) {
       self.counter++;
       if(ev.type == 'trigger') {
-        var d = new Date(ev.date);
+        var d = new Date(ev.date * 1000);
         var aux = '(' + d.getHours() + ':' + d.getMinutes() + ') Sensor ' + ev.sensor + ' ' + ev.level + ' at ' + ev.hostname + ' with value ' + parseFloat(ev.value).toFixed(2);
         window.terminal.terminal.echo(aux);
         $('#output_message').html(aux);
