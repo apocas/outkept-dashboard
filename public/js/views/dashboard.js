@@ -80,7 +80,7 @@ window.DashboardView = Backbone.View.extend({
         name: 'tilda',
         height: 100,
         enabled: false,
-        greetings: 'Outkept console - http://outke.pt/documentation',
+        greetings: 'Outkept console - http://outke.pt',
         keypress: function(e) {
           if (e.which == 20) {
             return false;
