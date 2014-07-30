@@ -1,40 +1,43 @@
 var Server = function (server) {
   this.props = server;
-  this.rendered = false;
   this.locked = false;
 };
 
 Server.prototype.render = function () {
   var self = this;
-  if (this.rendered === false) {
+
+  if ($('#servers_dashboard').find('#' + this.props.id).length === 0) {
     if(this.props.status != 'normal' || this.locked === true || this.props.connected === false) {
       var serverg = this.create();
-      var classes = 'server';
-      if(this.props.connected === false) {
-        classes += ' disconnected';
-      } else {
-        classes += ' ' + this.props.status;
-      }
 
-      if(this.locked === true) {
-        classes += ' pinned';
-      }
-
-      serverg.attr('class', classes);
+      serverg.attr('class', self.getClass());
 
       this.renderSensors(serverg);
-      self.rendered = true;
       $('#servers_dashboard').isotope('insert', serverg);
     }
   } else {
     if(this.props.status == 'normal' && this.locked === false && this.props.connected === true) {
-      $('#servers_dashboard').isotope('remove', $('#servers_dashboard').find('#' + this.props.id), function() {
-        self.rendered = false;
-      }).isotope('layout');
+      $('#servers_dashboard').isotope('remove', $('#servers_dashboard').find('#' + this.props.id)).isotope('layout');
     } else {
+      $('#servers_dashboard').find('#' + self.props.id).attr('class', self.getClass());
       this.renderSensors($('#' + this.props.id));
     }
   }
+};
+
+Server.prototype.getClass = function() {
+  var classes = 'server';
+  if(this.props.connected === false) {
+    classes += ' disconnected';
+  } else {
+    classes += ' ' + this.props.status;
+  }
+
+  if(this.locked === true) {
+    classes += ' pinned';
+  }
+
+  return classes;
 };
 
 Server.prototype.deRender = function() {

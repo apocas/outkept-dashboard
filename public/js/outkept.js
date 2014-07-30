@@ -147,9 +147,11 @@ Outkept.prototype.renderSearch = function() {
 
   $('.typeahead_search').typeahead({source: search_strings, updater:function (item) {
       var s = self.searchServer(item);
-      if(s !== undefined && s.rendered === false) {
-        s.locked = true;
-        s.render();
+      if(s !== undefined) {
+        if($('#servers_dashboard').find('#' + s.props.id).length === 0) {
+          s.locked = true;
+          s.render();
+        }
       } else {
         var results = self.searchSensor(item);
         var container = $('#searchModal').find('.modal-body');
@@ -195,19 +197,13 @@ Outkept.prototype.renderStats = function(data, parent) {
   }
 
   if (data.alarmed !== undefined) {
-    $('#vwarnings', parent).html(data.alarmed);
+    $('#vwarnings', parent).html(data.warned);
   }
   if (data.warned !== undefined) {
-    $('#valerts', parent).html(data.warned);
+    $('#valerts', parent).html(data.alarmed);
   }
   if (data.reactives !== undefined) {
-    $('#vreactives', parent).html(data.reactives);
-  }
-  if (data.servers !== undefined) {
-    $('#vservers', parent).html(data.servers);
-  }
-  if (data.sensors !== undefined) {
-    $('#vsensors', parent).html(data.sensors);
+    $('#vreactives', parent).html(data.fired);
   }
   if (data.feeds !== undefined) {
     $('#vfeeds', parent).html(data.feeds);
