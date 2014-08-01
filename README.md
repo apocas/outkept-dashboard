@@ -1,7 +1,5 @@
-outkept-dashboard
-=================
+# outkept-dashboard
 
-Outkept's Dashboard
+* [Outkept](https://github.com/apocas/outkept) Web dashboard
 
-
-WIP! Not ready for production yet.
+* It does not feature authentication. Put a `nginx` or alike in front of it if you want authentication.
