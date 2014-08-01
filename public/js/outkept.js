@@ -202,7 +202,7 @@ Outkept.prototype.renderStats = function(data, parent) {
   if (data.warned !== undefined) {
     $('#valerts', parent).html(data.alarmed);
   }
-  if (data.reactives !== undefined) {
+  if (data.fired !== undefined) {
     $('#vreactives', parent).html(data.fired);
   }
   if (data.feeds !== undefined) {
