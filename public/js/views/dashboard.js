@@ -56,6 +56,15 @@ window.DashboardView = Backbone.View.extend({
 
   render:function () {
     $(this.el).html(this.template());
+
+    soundManager.setup({
+      url: '/libs/',
+      preferFlash: false,
+      onready: function() {
+        console.log('Sound initiated.');
+      }
+    });
+
     $('#servers_dashboard', this.el).isotope({
       animationEngine : 'css',
       itemSelector: '.server',
@@ -114,6 +123,12 @@ window.DashboardView = Backbone.View.extend({
       if(command == 'help') {
         terminal.echo('Visit http://outke.pt/documentation');
         terminal.echo('Ctrl+t to show/hide console');
+      } else if(command == 'mute') {
+        $.cookie('mute', true);
+        terminal.echo('Sound muted.');
+      }else if(command == 'unmute') {
+        $.cookie('mute', false);
+        terminal.echo('Sound unmuted.');
       }
     });
 

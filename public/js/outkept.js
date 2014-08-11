@@ -66,7 +66,9 @@ var Outkept = function () {
       self.counter++;
       if(ev.type == 'trigger') {
         var d = new Date(ev.date * 1000);
-        var aux = '(' + d.getHours() + ':' + d.getMinutes() + ') Sensor ' + ev.sensor + ' ' + ev.level + ' at ' + ev.hostname + ' with value ' + parseFloat(ev.value).toFixed(2);
+        var daux = '(' + d.getHours() + ':' + d.getMinutes() + ') ';
+        var maux = 'Sensor ' + ev.sensor + ' ' + ev.level + ' at ' + ev.hostname + ' with value ' + parseFloat(ev.value).toFixed(2);
+        var aux = daux + maux;
         window.terminal.terminal.echo(aux);
         $('#output_message').html(aux);
 
@@ -91,6 +93,7 @@ var Outkept = function () {
           } else if(ev.level === 'fired' || ev.level === 'alarmed') {
             sens.status = 'alarmed';
             serv.props.status = 'alarmed';
+            self.notification(maux);
           }
 
           serv.render();
@@ -111,14 +114,15 @@ var Outkept = function () {
 };
 
 
-Outkept.prototype.notification = function (title, message) {
-  $.pnotify({
-    title: title,
-    text: message,
-    delay: 2000,
-    sticker: false,
-    history: false
-  });
+Outkept.prototype.notification = function (message) {
+  if (window.GoogleTTS && $.cookie('mute') === false) {
+    if(!this.googleTTS) {
+      this.googleTTS = new window.GoogleTTS();
+    }
+    this.googleTTS.play(message, 'en', function(err) {
+      console.log('Finished playing');
+    });
+  }
 };
 
 Outkept.prototype.findServer = function (id) {
