@@ -3,6 +3,7 @@ var Outkept = function () {
   this.counter = 0;
   this.mpoints = [0];
   this.stats = {};
+  this.playing = false;
 
   var self = this;
 
@@ -67,7 +68,8 @@ var Outkept = function () {
       if(ev.type == 'trigger') {
         var d = new Date(ev.date * 1000);
         var daux = '(' + d.getHours() + ':' + d.getMinutes() + ') ';
-        var maux = 'Sensor ' + ev.sensor + ' ' + ev.level + ' at ' + ev.hostname + ' with value ' + parseFloat(ev.value).toFixed(2);
+        var maux = 'Server ' + ev.hostname + ', ' + ev.level + ' with value ' + parseFloat(ev.value).toFixed(2) + ' at ' + ev.sensor + '.';
+
         var aux = daux + maux;
         window.terminal.terminal.echo(aux);
         $('#output_message').html(aux);
@@ -87,7 +89,7 @@ var Outkept = function () {
               sens.value = ev.value;
           }
 
-          if(ev.level === 'warned' || ev.level === 'alarmed') {
+          if(ev.level === 'warned') {
             sens.status = ev.level;
             serv.props.status = ev.level;
           } else if(ev.level === 'fired' || ev.level === 'alarmed') {
@@ -115,12 +117,14 @@ var Outkept = function () {
 
 
 Outkept.prototype.notification = function (message) {
-  if (window.GoogleTTS && $.cookie('mute') === false) {
+  var self = this;
+  if (window.GoogleTTS && (!$.cookie('mute') || $.cookie('mute') === "false") && this.playing === false) {
+    this.playing = true;
     if(!this.googleTTS) {
       this.googleTTS = new window.GoogleTTS();
     }
     this.googleTTS.play(message, 'en', function(err) {
-      console.log('Finished playing');
+      self.playing = false;
     });
   }
 };
