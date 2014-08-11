@@ -119,14 +119,15 @@ window.DashboardView = Backbone.View.extend({
       return self;
     };
 
-    $('#tilda', this.el).tilda(function(command, terminal) {
+    $('#tilda', this.el).tilda(function (command, terminal) {
       if(command == 'help') {
-        terminal.echo('Visit http://outke.pt/documentation');
+        terminal.echo('Visit http://outke.pt');
         terminal.echo('Ctrl+t to show/hide console');
+        terminal.echo('mute, unmute');
       } else if(command == 'mute') {
         $.cookie('mute', true);
         terminal.echo('Sound muted.');
-      }else if(command == 'unmute') {
+      } else if(command == 'unmute') {
         $.cookie('mute', false);
         terminal.echo('Sound unmuted.');
       }

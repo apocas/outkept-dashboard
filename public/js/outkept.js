@@ -120,12 +120,17 @@ Outkept.prototype.notification = function (message) {
   var self = this;
   if (window.GoogleTTS && (!$.cookie('mute') || $.cookie('mute') === "false") && this.playing === false) {
     this.playing = true;
+    clearTimeout(this.timeout);
     if(!this.googleTTS) {
       this.googleTTS = new window.GoogleTTS();
     }
     this.googleTTS.play(message, 'en', function(err) {
       self.playing = false;
     });
+  } else if(this.playing === true) {
+    this.timeout = setTimeout(function() {
+      self.playing = false;
+    }, 10000);
   }
 };
 
