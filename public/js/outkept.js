@@ -68,7 +68,7 @@ var Outkept = function () {
       if(ev.type == 'trigger') {
         var d = new Date(ev.date * 1000);
         var daux = '(' + d.getHours() + ':' + d.getMinutes() + ') ';
-        var maux = 'Server ' + ev.hostname + ', ' + ev.level + ' with value ' + parseFloat(ev.value).toFixed(2) + ' at ' + ev.sensor + '.';
+        var maux = 'Server ' + ev.hostname + ', ' + ev.level + ' with value ' + parseFloat(parseFloat(ev.value).toFixed(2)).toString() + ' at ' + ev.sensor + '.';
 
         var aux = daux + maux;
         window.terminal.terminal.echo(aux);
