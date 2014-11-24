@@ -1,17 +1,15 @@
 .swrapper {
-  position:relative;
-  width:100%;
-  height:100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
   margin-bottom: 5px;
 }
-
 .scontent {
-  width:100%;
-  position:relative;
-  top:0;
+  width: 100%;
+  position: relative;
+  top: 0;
   font-size: 12px;
 }
-
 .opin {
   width: 26px;
   height: 26px;
@@ -21,23 +19,20 @@
   top: -8px;
   left: -2px;
 }
-
 .opin:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 .server {
   /*border: none !important;*/
-  margin: 3px; 
+  margin: 3px;
   padding: 1px;
   padding-top: 5px;
   float: left;
-  width: 165px; 
+  width: 165px;
   font-size: 11px;
   text-align: center;
   border-radius: 3px;
   line-height: 15px;
-  
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #dbe3e8;
   background-image: -moz-linear-gradient(top, #e5edf2, #cdd5da);
@@ -46,61 +41,51 @@
   background-image: -o-linear-gradient(top, #e5edf2, #cdd5da);
   background-image: linear-gradient(to bottom, #e5edf2, #cdd5da);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5edf2', endColorstr='#ffcdd5da', GradientType=0);
+  filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffe5edf2', endColorstr='#ffcdd5da', GradientType=0);
   border-color: #cdd5da #cdd5da #a1b0b9;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.75);
   border-top: 1px solid #CFD6DB;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
-
 .alarmed {
   box-shadow: 0 0 3px red;
 }
-
 .warned {
   box-shadow: 0 0 3px orange;
 }
-
 .normal {
   box-shadow: 0 0 3px green;
 }
-
 .disconnected {
   box-shadow: 0 0 3px black;
 }
-
 .salarmed {
   color: #CC3333;
 }
-
 .swarned {
   color: #CC6600;
 }
-
 .hostname {
-  padding:0;
-  margin:0;
-  margin-bottom:3px;
-  font-weight:bold;
-  font-size:14px;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 3px;
+  font-weight: bold;
+  font-size: 14px;
 }
-
 .address {
-  padding:0;
-  margin:0;
-  margin-bottom:3px;
-  font-weight:bold;
-  font-size:14px;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 3px;
+  font-weight: bold;
+  font-size: 14px;
 }
-
 .ostats {
-  padding:0;
-  margin:0;
-  margin-top:4px;
-  margin-bottom:4px;
+  padding: 0;
+  margin: 0;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }
-
 .isotope,
 .isotope .isotope-item {
   /* change duration value to whatever you like */
@@ -110,7 +95,6 @@
   -o-transition-duration: 0.8s;
   transition-duration: 0.8s;
 }
-
 .isotope {
   -webkit-transition-property: height, width;
   -moz-transition-property: height, width;
@@ -118,15 +102,13 @@
   -o-transition-property: height, width;
   transition-property: height, width;
 }
-
 .isotope .isotope-item {
   -webkit-transition-property: -webkit-transform, opacity;
-  -moz-transition-property:    -moz-transform, opacity;
-  -ms-transition-property:     -ms-transform, opacity;
-  -o-transition-property:      -o-transform, opacity;
-  transition-property:         transform, opacity;
+  -moz-transition-property: -moz-transform, opacity;
+  -ms-transition-property: -ms-transform, opacity;
+  -o-transition-property: -o-transform, opacity;
+  transition-property: transform, opacity;
 }
-
 .spvalue {
   font-size: 15px;
   font-weight: bold;

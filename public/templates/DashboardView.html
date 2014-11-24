@@ -22,72 +22,81 @@
 </div>
 
 <div class="container" style="margin: 0px; width: 100%">
-    <div class="row-fluid">
-        <div class="" id="main_screen" style="float: left; width:100%">
-            <div id="content">
+  <div class="row-fluid">
+    <div class="" id="main_screen" style="float: left; width:100%">
+      <div id="content">
 
-                <!-- Navbar
+        <!-- Navbar
                 ================================================== -->
-                <section id="stats">
-                  <header>
-                    <div class="pull-right filters">
-                        <a class="btn btn-small btn-primary" data-filter=".alarmed, .pinned">Alarmed</a>
-                        <a class="btn btn-small" data-filter=".warned, .pinned">Warned</a>
-                        <a class="btn btn-small" data-filter="*">Both</a>
-                    </div>
-                    <h1>Dashboard</h1>
-                  </header>
-                  <div class="row-fluid">
-                    <div class="span2" style="text-align: center;">
-                        <div id="vwarnings" class="kpi">0</div>
-                        <div><small>warnings today</small></div>
-                    </div>
-                    <div class="span2" style="text-align: center;">
-                        <div id="valerts" class="kpi">0</div>
-                        <div><small>alerts today</small></div>
-                    </div>
-                    <div class="span2" style="text-align: center;">
-                        <div id="vreactives" class="kpi">0</div>
-                        <div><small>reactives today</small></div>
-                    </div>
-                    <div class="span2" style="text-align: center;">
-                        <div id="vfeeds" class="kpi">0</div>
-                        <div><small>feeds today</small></div>
-                    </div>
-                    <div class="span1" style="text-align: center;">
-                        <div id="vservers" class="kpi">0</div>
-                        <div><small>servers</small></div>
-                    </div>
-                    <div class="span1" style="text-align: center;">
-                        <div id="vsensors" class="kpi">0</div>
-                        <div><small>sensors</small></div>
-                    </div>
-                    <div class="span2" style="text-align: center;">
-                        <div id="vrequests" class="kpi"><span class="sparkline">Loading...</span></div>
-                        <div><small>events/sec</small></div>
-                    </div>
-                  </div>
-                </section>
-
-                <section id="forms">
-                  <div class="sub-header" style="height: 25px;">
-                    <h2 style="float: left"><span id="output_message">Servers</span></h2>
-
-                    <div class="pull-right">
-                      <input type="text" data-provide="typeahead" autocomplete="off" style="height: 11px; margin-top: 2px; margin-right: 20px;" class="typeahead_search" placeholder="search …">
-                    </div>
-                  </div>
-                  <div class="row-fluid row-fluid-alternate-bg">
-                    <div class="span12">
-                        <div id="servers_dashboard" style="width: 100%;"></div>
-                    </div>
-                  </div>
-                </section>
-
+        <section id="stats">
+          <header>
+            <div class="pull-right filters">
+              <a class="btn btn-small btn-primary" data-filter=".alarmed, .pinned">Alarmed</a>
+              <a class="btn btn-small" data-filter=".warned, .pinned">Warned</a>
+              <a class="btn btn-small" data-filter="*">Both</a>
             </div>
-        </div>
+            <h1>Dashboard</h1>
+          </header>
+          <div class="row-fluid">
+            <div class="span2" style="text-align: center;">
+              <div id="vwarnings" class="kpi">0</div>
+              <div><small>warnings today</small>
+              </div>
+            </div>
+            <div class="span2" style="text-align: center;">
+              <div id="valerts" class="kpi">0</div>
+              <div><small>alerts today</small>
+              </div>
+            </div>
+            <div class="span2" style="text-align: center;">
+              <div id="vreactives" class="kpi">0</div>
+              <div><small>reactives today</small>
+              </div>
+            </div>
+            <div class="span2" style="text-align: center;">
+              <div id="vfeeds" class="kpi">0</div>
+              <div><small>feeds today</small>
+              </div>
+            </div>
+            <div class="span1" style="text-align: center;">
+              <div id="vservers" class="kpi">0</div>
+              <div><small>servers</small>
+              </div>
+            </div>
+            <div class="span1" style="text-align: center;">
+              <div id="vsensors" class="kpi">0</div>
+              <div><small>sensors</small>
+              </div>
+            </div>
+            <div class="span2" style="text-align: center;">
+              <div id="vrequests" class="kpi"><span class="sparkline">Loading...</span>
+              </div>
+              <div><small>events/sec</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="forms">
+          <div class="sub-header" style="height: 25px;">
+            <h2 style="float: left"><span id="output_message">Servers</span></h2>
+
+            <div class="pull-right">
+              <input type="text" data-provide="typeahead" autocomplete="off" style="height: 11px; margin-top: 2px; margin-right: 20px;" class="typeahead_search" placeholder="search …">
+            </div>
+          </div>
+          <div class="row-fluid row-fluid-alternate-bg">
+            <div class="span12">
+              <div id="servers_dashboard" style="width: 100%;"></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
     </div>
-</div><!-- /container -->
+  </div>
+</div>
+<!-- /container -->
 
 <div id="searchModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">

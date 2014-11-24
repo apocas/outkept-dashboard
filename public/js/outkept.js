@@ -1,4 +1,4 @@
-var Outkept = function () {
+var Outkept = function() {
   this.servers = [];
   this.counter = 0;
   this.mpoints = [0];
@@ -12,14 +12,13 @@ var Outkept = function () {
   this.connection = io();
   window.connection = this.connection;
 
-  this.connection.on('disconnect', function () {
+  this.connection.on('disconnect', function() {
     console.log('Disconnected');
-    //self.notification('Connection status', 'Disconnected.');
   });
 
   this.connection.on('connect', function() {
 
-    self.connection.on('server', function (server) {
+    self.connection.on('server', function(server) {
       //console.log(server);
       self.counter++;
       var aux = self.findServer(server.id);
@@ -33,7 +32,7 @@ var Outkept = function () {
       }
     });
 
-    self.connection.on('servers', function (servers) {
+    self.connection.on('servers', function(servers) {
       self.counter++;
       var sensors = 0;
       for (var i = 0; i < servers.length; i++) {
@@ -55,7 +54,7 @@ var Outkept = function () {
       $('#vsensors').html(sensors);
     });
 
-    self.connection.on('message', function (message) {
+    self.connection.on('message', function(message) {
       self.counter++;
       var d = new Date(message.date);
       var aux = '(' + d.getHours() + ':' + d.getMinutes() + ') ' + message.message;
@@ -63,9 +62,9 @@ var Outkept = function () {
       $('#output_message').html(aux);
     });
 
-    self.connection.on('event', function (ev) {
+    self.connection.on('event', function(ev) {
       self.counter++;
-      if(ev.type == 'trigger') {
+      if (ev.type == 'trigger') {
         var d = new Date(ev.date * 1000);
         var daux = '(' + d.getHours() + ':' + d.getMinutes() + ') ';
         var maux = 'Server ' + ev.hostname + ', ' + ev.level + ' with value ' + parseFloat(parseFloat(ev.value).toFixed(2)).toString() + ' at ' + ev.sensor + '.';
@@ -75,10 +74,10 @@ var Outkept = function () {
         $('#output_message').html(aux);
 
         var serv = self.findServer(ev.id);
-        if(serv) {
+        if (serv) {
           var sens = serv.getSensor(ev.sensor);
 
-          if(!sens) {
+          if (!sens) {
             sens = {
               'name': ev.sensor,
               'value': ev.value,
@@ -86,13 +85,13 @@ var Outkept = function () {
             };
             serv.props.sensors.push(sens);
           } else {
-              sens.value = ev.value;
+            sens.value = ev.value;
           }
 
-          if(ev.level === 'warned') {
+          if (ev.level === 'warned') {
             sens.status = ev.level;
             serv.props.status = ev.level;
-          } else if(ev.level === 'fired' || ev.level === 'alarmed') {
+          } else if (ev.level === 'fired' || ev.level === 'alarmed') {
             sens.status = 'alarmed';
             serv.props.status = 'alarmed';
             self.notification(maux);
@@ -103,7 +102,7 @@ var Outkept = function () {
       }
     });
 
-    self.connection.on('stats', function (data) {
+    self.connection.on('stats', function(data) {
       self.counter++;
       self.stats = data;
 
@@ -116,25 +115,25 @@ var Outkept = function () {
 };
 
 
-Outkept.prototype.notification = function (message) {
+Outkept.prototype.notification = function(message) {
   var self = this;
   if (window.GoogleTTS && (!$.cookie('mute') || $.cookie('mute') === "false") && this.playing === false) {
     this.playing = true;
     clearTimeout(this.timeout);
-    if(!this.googleTTS) {
+    if (!this.googleTTS) {
       this.googleTTS = new window.GoogleTTS();
     }
     this.googleTTS.play(message, 'en', function(err) {
       self.playing = false;
     });
-  } else if(this.playing === true) {
+  } else if (this.playing === true) {
     this.timeout = setTimeout(function() {
       self.playing = false;
     }, 10000);
   }
 };
 
-Outkept.prototype.findServer = function (id) {
+Outkept.prototype.findServer = function(id) {
   for (var i = 0; i < this.servers.length; i++) {
     if (this.servers[i].props.id === id) {
       return this.servers[i];
@@ -145,23 +144,35 @@ Outkept.prototype.findServer = function (id) {
 Outkept.prototype.renderSearch = function() {
   var search_strings = [];
   var self = this;
+
   for (var i = 0; i < this.servers.length; i++) {
-    if(this.servers[i].props.hostname != undefined && this.servers[i].props.address != undefined) {
-      search_strings.push(this.servers[i].props.hostname);
-      search_strings.push(this.servers[i].props.address);
+    var server = this.servers[i];
+
+    if (server.props.hostname && server.props.address) {
+      search_strings.push(server.props.hostname);
+      search_strings.push(server.props.address);
     }
 
-    for (var y = 0; y < this.servers[i].props.sensors.length; y++) {
-      if(this.servers[i].props.sensors[y] !== null && search_strings.indexOf(this.servers[i].props.sensors[y].name) < 0 && this.servers[i].props.sensors[y].name != undefined) {
-        search_strings.push(this.servers[i].props.sensors[y].name);
+    if (server.props.ips) {
+      for (var z = 0; z < server.props.ips.length; z++) {
+        search_strings.push(server.props.ips[z]);
+      }
+    }
+
+    for (var y = 0; y < server.props.sensors.length; y++) {
+      var sensor = server.props.sensors[y];
+      if (sensor !== null && search_strings.indexOf(sensor.name) < 0 && sensor.name != undefined) {
+        search_strings.push(sensor.name);
       }
     }
   }
 
-  $('.typeahead_search').typeahead({source: search_strings, updater:function (item) {
+  $('.typeahead_search').typeahead({
+    source: search_strings,
+    updater: function(item) {
       var s = self.searchServer(item);
-      if(s !== undefined) {
-        if($('#servers_dashboard').find('#' + s.props.id).length === 0) {
+      if (s !== undefined) {
+        if ($('#servers_dashboard').find('#' + s.props.id).length === 0) {
           s.locked = true;
           s.render();
         }
@@ -172,6 +183,11 @@ Outkept.prototype.renderSearch = function() {
         var html = '';
         html += '<table class="table table-striped table-hover">';
         html += '<thead><tr><th>Value</th><th>Hostname</th><th>Address</th><th></th></tr></thead><tbody>';
+
+        results.sort(function(obj1, obj2) {
+          return obj2.value - obj1.value;
+        });
+
         for (var i = 0; i < results.length; i++) {
           html += '<tr data-serverid="' + results[i].id + '"><td ><span class="spvalue">' + results[i].value + '</span></td><td>' + results[i].hostname + '</td><td>' + results[i].address + '</td><td><button type="button" class="btn_pin btn btn-primary" data-loading-text="Pinned">Pin</button></td></tr>';
         }
@@ -189,7 +205,12 @@ Outkept.prototype.searchSensor = function(expression) {
   for (var i = 0; i < this.servers.length; i++) {
     for (var y = 0; y < this.servers[i].props.sensors.length; y++) {
       if (this.servers[i].props.sensors[y] !== null && this.servers[i].props.sensors[y].name == expression) {
-        sbuffer.push({id: this.servers[i].props.id, address: this.servers[i].props.address, hostname: this.servers[i].props.hostname, value: this.servers[i].props.sensors[y].value});
+        sbuffer.push({
+          id: this.servers[i].props.id,
+          address: this.servers[i].props.address,
+          hostname: this.servers[i].props.hostname,
+          value: this.servers[i].props.sensors[y].value
+        });
       }
     }
   }
@@ -198,14 +219,22 @@ Outkept.prototype.searchSensor = function(expression) {
 
 Outkept.prototype.searchServer = function(expression) {
   for (var i = 0; i < this.servers.length; i++) {
-    if(this.servers[i].props.hostname == expression || this.servers[i].props.address == expression) {
-      return this.servers[i];
+    var serv = this.servers[i];
+    if (serv.props.hostname == expression || serv.props.address == expression) {
+      return serv;
+    }
+    if (serv.props.ips) {
+      for (var y = 0; y < serv.props.ips.length; y++) {
+        if (serv.props.ips[y] == expression) {
+          return serv;
+        }
+      }
     }
   }
 };
 
 Outkept.prototype.renderStats = function(data, parent) {
-  if(parent === undefined) {
+  if (parent === undefined) {
     parent = $('#stats');
   }
 
@@ -223,14 +252,14 @@ Outkept.prototype.renderStats = function(data, parent) {
   }
 };
 
-Outkept.prototype.renderHeartbeat = function () {
+Outkept.prototype.renderHeartbeat = function() {
   var mpoints_max = 30;
   var self = this;
 
-  setInterval(function () {
+  setInterval(function() {
     self.mpoints.push(self.counter);
     if (self.mpoints.length > mpoints_max) {
-      self.mpoints.splice(0,1);
+      self.mpoints.splice(0, 1);
     }
 
     $('.sparkline').sparkline(self.mpoints, {
@@ -247,5 +276,5 @@ Outkept.prototype.renderHeartbeat = function () {
     });
 
     self.counter = 0;
-  },1000);
+  }, 1000);
 };

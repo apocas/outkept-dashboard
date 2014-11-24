@@ -8,11 +8,11 @@ window.DashboardView = Backbone.View.extend({
     'click #btn_logout': 'click_logout'
   },
 
-  initialize: function (outkept) {
+  initialize: function(outkept) {
     this.outkept = outkept;
   },
 
-  click_console: function (e) {
+  click_console: function(e) {
     e.preventDefault();
     window.terminal.slideToggle('fast');
     window.terminal.terminal.focus(focus = !focus);
@@ -21,7 +21,7 @@ window.DashboardView = Backbone.View.extend({
     });
   },
 
-  click_logout: function (e) {
+  click_logout: function(e) {
     e.preventDefault();
     $.removeCookie('osession');
     app.navigate("/login", {
@@ -29,32 +29,34 @@ window.DashboardView = Backbone.View.extend({
     });
   },
 
-  click_pin_on: function (e) {
+  click_pin_on: function(e) {
     var btn = $(e.target);
     var server = this.outkept.findServer(btn.parent().parent().attr('data-serverid'));
-    if($('#servers_dashboard').find('#' + server.props.id).length === 0) {
+    if ($('#servers_dashboard').find('#' + server.props.id).length === 0) {
       server.locked = true;
       server.render();
       btn.button('loading');
     }
   },
 
-  click_pin: function (e) {
+  click_pin: function(e) {
     var server = this.outkept.findServer($(e.target).parent().attr('id'));
     server.locked = false;
 
     $('#servers_dashboard').isotope('remove', $(e.target).parent()).isotope('layout');
   },
 
-  filter: function (e) {
+  filter: function(e) {
     $('.filters a').removeClass('btn-primary');
     $(e.target).addClass('btn-primary');
     var selector = $(e.target).attr('data-filter');
-    $('#servers_dashboard').isotope({ filter: selector });
+    $('#servers_dashboard').isotope({
+      filter: selector
+    });
     return false;
   },
 
-  render:function () {
+  render: function() {
     $(this.el).html(this.template());
 
     soundManager.setup({
@@ -66,7 +68,7 @@ window.DashboardView = Backbone.View.extend({
     });
 
     $('#servers_dashboard', this.el).isotope({
-      animationEngine : 'css',
+      animationEngine: 'css',
       itemSelector: '.server',
       filter: '.alarmed, .pinned',
       masonry: {
@@ -119,15 +121,15 @@ window.DashboardView = Backbone.View.extend({
       return self;
     };
 
-    $('#tilda', this.el).tilda(function (command, terminal) {
-      if(command == 'help') {
+    $('#tilda', this.el).tilda(function(command, terminal) {
+      if (command == 'help') {
         terminal.echo('Visit http://outke.pt');
         terminal.echo('Ctrl+t to show/hide console');
         terminal.echo('mute, unmute');
-      } else if(command == 'mute') {
+      } else if (command == 'mute') {
         $.cookie('mute', true);
         terminal.echo('Sound muted.');
-      } else if(command == 'unmute') {
+      } else if (command == 'unmute') {
         $.cookie('mute', false);
         terminal.echo('Sound unmuted.');
       }
