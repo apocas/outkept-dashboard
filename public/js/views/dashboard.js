@@ -4,8 +4,7 @@ window.DashboardView = Backbone.View.extend({
     'click .filters a': 'filter',
     'click .opin': 'click_pin',
     'click .btn_pin': 'click_pin_on',
-    'click #btn_console': 'click_console',
-    'click #btn_logout': 'click_logout'
+    'click #btn_console': 'click_console'
   },
 
   initialize: function(outkept) {
@@ -18,14 +17,6 @@ window.DashboardView = Backbone.View.extend({
     window.terminal.terminal.focus(focus = !focus);
     window.terminal.terminal.attr({
       scrollTop: window.terminal.terminal.attr("scrollHeight")
-    });
-  },
-
-  click_logout: function(e) {
-    e.preventDefault();
-    $.removeCookie('osession');
-    app.navigate("/login", {
-      trigger: true
     });
   },
 
@@ -77,14 +68,14 @@ window.DashboardView = Backbone.View.extend({
       }
     });
 
-    $.fn.tilda = function(eval, options) {
+    $.fn.tilda = function(evall, options) {
       if ($('body', this.el).data('tilda')) {
         return $('body').data('tilda').terminal;
       }
       this.addClass('tilda');
       options = options || {};
-      eval = eval || function(command, term) {
-        term.echo("you don't set eval for tilda");
+      evall = evall || function(command, term) {
+        term.echo("You didn't set eval for tilda");
       };
       var settings = {
         prompt: 'outkept> ',
@@ -103,11 +94,10 @@ window.DashboardView = Backbone.View.extend({
       }
       this.append('<div class="td"></div>');
       var self = this;
-      self.terminal = this.find('.td').terminal(eval, settings);
+      self.terminal = this.find('.td').terminal(evall, settings);
       window.terminal = self;
       var focus = false;
       $(document.documentElement).keypress(function(e) {
-        //console.log(e.which);
         if (e.which == 20) {
           self.slideToggle('fast');
           self.terminal.focus(focus = !focus);
@@ -136,6 +126,7 @@ window.DashboardView = Backbone.View.extend({
     });
 
     this.outkept.renderStats(this.outkept.stats, this.el);
+    this.outkept.renderSearch(this.el);
 
     return this;
   }

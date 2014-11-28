@@ -48,8 +48,6 @@ var Outkept = function() {
         }
       }
 
-      self.renderSearch();
-
       $('#vservers').html(servers.length);
       $('#vsensors').html(sensors);
     });
@@ -141,44 +139,25 @@ Outkept.prototype.findServer = function(id) {
   }
 };
 
-Outkept.prototype.renderSearch = function() {
-  var search_strings = [];
+Outkept.prototype.renderSearch = function(el) {
   var self = this;
-
-  for (var i = 0; i < this.servers.length; i++) {
-    var server = this.servers[i];
-
-    if (server.props.hostname && server.props.address) {
-      search_strings.push(server.props.hostname);
-      search_strings.push(server.props.address);
-    }
-
-    if (server.props.ips) {
-      for (var z = 0; z < server.props.ips.length; z++) {
-        search_strings.push(server.props.ips[z]);
-      }
-    }
-
-    for (var y = 0; y < server.props.sensors.length; y++) {
-      var sensor = server.props.sensors[y];
-      if (sensor !== null && search_strings.indexOf(sensor.name) < 0 && sensor.name != undefined) {
-        search_strings.push(sensor.name);
-      }
-    }
-  }
-
-  $('.typeahead_search').typeahead({
-    source: search_strings,
+  
+  $('.typeahead_search', el).typeahead({
+    source: function(query, process) {
+      $.getJSON('search/' + query, function( data ) {
+        process(data);
+      });
+    },
     updater: function(item) {
       var s = self.searchServer(item);
       if (s !== undefined) {
-        if ($('#servers_dashboard').find('#' + s.props.id).length === 0) {
+        if ($('#servers_dashboard', el).find('#' + s.props.id).length === 0) {
           s.locked = true;
           s.render();
         }
       } else {
         var results = self.searchSensor(item);
-        var container = $('#searchModal').find('.modal-body');
+        var container = $('#searchModal', el).find('.modal-body');
         container.html('');
         var html = '';
         html += '<table class="table table-striped table-hover">';
@@ -193,11 +172,12 @@ Outkept.prototype.renderSearch = function() {
         }
         html += '</tbody></table>';
         container.append(html);
-        $('#searchModal').modal();
+        $('#searchModal', el).modal();
       }
       return '';
     }
   });
+
 };
 
 Outkept.prototype.searchSensor = function(expression) {
