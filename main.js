@@ -60,7 +60,6 @@ function search(req, res) {
 }
 
 app.get('/tts', tts);
-
 app.get('/search/:query', search);
 
 http_server.listen(1337);
