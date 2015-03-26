@@ -1,12 +1,22 @@
 {
   "name": "outkept-dashboard",
-  "version": "2.0.1",
+  "version": "2.0.2",
+  "description": "http//outke.pt",
+  "author": "Pedro Dias <petermdias@gmail.com>",
+  "maintainers": [
+    "apocas <petermdias@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/apocas/outkept-dashboard.git"
+  },
   "dependencies": {
     "express": "*",
     "mongodb": "*",
     "socket.io": "*",
     "duplex-emitter": "*",
-    "mubsub": "*",
+    "hiredis": "*",
+    "redis": "*",
     "async": "*",
     "request": "*"
   }
